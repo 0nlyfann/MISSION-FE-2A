@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom"; 
 
 function Navbar() {
+  const navigate = useNavigate(); // <-- Inisialisasi hook navigasi
   const [isOpen, setIsOpen] = useState(false);
   const [isGenreOpen, setIsGenreOpen] = useState(false);
-  
   const [isGenreMobileOpen, setIsGenreMobileOpen] = useState(false);
 
   return (
@@ -62,7 +62,6 @@ function Navbar() {
           <a href="#" className="text-gray-300 font-medium">Series</a>
           <Link to="/daftar-saya" className="text-gray-300 font-medium">Daftar Saya</Link>
           
-          
           <div className="relative">
             <button 
               onClick={() => setIsGenreMobileOpen(!isGenreMobileOpen)} 
@@ -118,13 +117,28 @@ function Navbar() {
             >
               <span><img src="/assets/account.png" alt="" /></span> Profil Saya
             </Link>
-            <a href="#" className="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-200 hover:bg-gray-800/50 transition font-medium">
+            
+            {/* Navigasi langsung ke halaman profil untuk mengubah premium */}
+            <Link 
+              to="/profile"
+              onClick={() => setIsOpen(false)}
+              className="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-200 hover:bg-gray-800/50 transition font-medium"
+            >
               <span><img src="/assets/bintang.png" alt="" /></span> Ubah Premium
-            </a>
+            </Link>
+            
             <hr className="border-gray-800 my-1" />
-            <a href="#" className="flex items-center gap-3 px-4 py-2.5 text-sm text-red-400 hover:bg-gray-800/50 transition font-medium">
-              <span><img src="/assets/logout.png" alt="" /></span> Keluar
-            </a>
+            
+            {/* Tombol Keluar, balik ke halaman Login ("/") */}
+            <button 
+              onClick={() => {
+                setIsOpen(false);
+                navigate("/");
+              }} 
+              className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-red-400 hover:bg-gray-800/50 transition font-medium text-left focus:outline-none animate-fade-in"
+            >
+              <span><img src="/assets/logout.png" alt="Logout" /></span> Keluar
+            </button>
           </div>
         )}
       </div>
